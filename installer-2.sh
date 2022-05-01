@@ -23,15 +23,15 @@ function installAURPackage()
 
 function copyPolybarConfig()
 {
-  mkdir -p /home/$SUDO_USER/.configs/polybar
-  cp -rf /home/$SUDO_USER/archlinux-installer/data/grayblocks /home/$SUDO_USER/.configs/polybar
+  mkdir -p /home/$SUDO_USER/.config/polybar
+  cp -rf /home/$SUDO_USER/archlinux-installer/data/grayblocks /home/$SUDO_USER/.config/polybar
 }
 
 function copyI3Configs()
 {
   mkdir -p /home/$SUDO_USER/Configs
   cp -rf /home/$SUDO_USER/archlinux-installer/data/Configs /home/$SUDO_USER/
-  cp -rf /home/$SUDO_USER/archlinux-installer/data/i3-config /home/$SUDO_USER/.configs/i3/config
+  cp -rf /home/$SUDO_USER/archlinux-installer/data/i3-config /home/$SUDO_USER/.config/i3/config
 }
 
 function setWallpaper()
