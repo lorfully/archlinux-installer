@@ -1,7 +1,7 @@
 function update()
 {
-  sudo pacman -Syy --noconfirm
-  sudo pacman -Syu --noconfirm
+  pacman -Syy --noconfirm
+  pacman -Syu --noconfirm
 }
 
 function deletePackages()
@@ -11,7 +11,7 @@ function deletePackages()
     return
   fi
 
-  sudo pacman -Rncsv $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm
+  pacman -Rncsv $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm
 }
 
 function installPackages()
@@ -21,7 +21,7 @@ function installPackages()
     return
   fi
 
-  sudo pacman -S $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm
+  pacman -S $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm --needed
 }
 
 function installAURPackage()
@@ -31,11 +31,11 @@ function installAURPackage()
     return
   fi
 
-  sudo git clone $1 build
-  cd build
-  makepkg -si --noconfirm
-  cd ../
-  sudo rm -rf build
+  sudo -u "$SUDO_USER" git clone $1 testbuild
+  sudo -u "$SUDO_USER" cd testbuild
+  sudo -u "$SUDO_USER" makepkg -si --noconfirm
+  sudo -u "$SUDO_USER" cd ../
+  sudo -u "$SUDO_USER" rm -rf testbuild
 }
 
 function launchService()
@@ -45,48 +45,48 @@ function launchService()
     return
   fi
 
-  sudo systemctl enable $1
-  sudo systemctl start $1
+  systemctl enable $1
+  systemctl start $1
 }
 
 function hideGrubLoader()
 {
-  sudo cp /etc/default/grub ~/temp1
+  cp /etc/default/grub /home/$SUDO_USER/temp1
   
-  sudo echo "GRUB_DEFAULT=0" >> ~/temp1
-  sudo echo "GRUB_TIMEOUT=0" >> ~/temp1
-  sudo echo "GRUB_DISABLE_OS_PROBER=true" >> ~/temp1
+  echo "GRUB_DEFAULT=0" >> /home/$SUDO_USER/temp1
+  echo "GRUB_TIMEOUT=0" >> /home/$SUDO_USER/temp1
+  echo "GRUB_DISABLE_OS_PROBER=true" >> /home/$SUDO_USER/temp1
 
-  sudo mv ~/temp1 /etc/default/grub
+  mv /home/$SUDO_USER/temp1 /etc/default/grub
 
-  sudo grub-mkconfig -o /boot/grub/grub.cfg
+  grub-mkconfig -o /boot/grub/grub.cfg
 }
 
 function copyPolybarConfig()
 {
-  sudo mkdir $HOME/.configs/polybar
-  sudo cp -rf ./data/grayblocks ~/.configs/polybar
+  mkdir /home/$SUDO_USER/.configs/polybar
+  cp -rf /home/$SUDO_USER/archlinux-installer/data/grayblocks /home/$SUDO_USER/.configs/polybar
 }
 
 function copyI3Configs()
 {
-  sudo mkdir ~/Configs
-  sudo cp -rf ./data/Configs ~/
-  sudo cp ./data/i3-config ~/.configs/i3/config
+  mkdir /home/$SUDO_USER/Configs
+  cp -rf /home/$SUDO_USER/archlinux-installer/data/Configs /home/$SUDO_USER/
+  cp /home/$SUDO_USER/archlinux-installer/data/i3-config /home/$SUDO_USER/.configs/i3/config
 }
 
 function setWallpaper()
 {
-  sudo mkdir ~/Pictures
-  sudo mkdir ~/Pictures/Wallpapers
-  sudo cp ./data/wallpaper.jpg ~/Pictures/Wallpapers/wallpaper.jpg
-  sudo nitrogen --set-zoom-fill ~/Pictures/Wallpapers/wallpaper.jpg
+  mkdir /home/$SUDO_USER/Pictures
+  mkdir /home/$SUDO_USER/Pictures/Wallpapers
+  cp /home/$SUDO_USER/archlinux-installer/data/wallpaper.jpg /home/$SUDO_USER/Pictures/Wallpapers/wallpaper.jpg
+  nitrogen --set-zoom-fill /home/$SUDO_USER/Pictures/Wallpapers/wallpaper.jpg
 }
 
 # check sudo
 if [[ "$EUID" != 0 ]]; then
-  sudo -k
-  if sudo false; then 
+  -k
+  if false; then 
     echo "Wrong password!"
     exit 0
   fi
@@ -108,7 +108,7 @@ installPackages ttf-hanazono ttf-sazanami ttf-font-awesome ttf-fira-code ttf-ano
 installPackages telegram-desktop nautilus
 
 # setup display and window manager
-sudo echo i3 > ~/.xinitrc
+echo i3 > /home/$SUDO_USER/.xinitrc
 launchService lightdm
 
 # install AUR packages
@@ -124,4 +124,4 @@ copyPolybarConfig
 copyI3Configs
 setWallpaper
 
-# sudo reboot
+# reboot
