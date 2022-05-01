@@ -25,8 +25,8 @@ DIR=`pwd`
 FDIR="/home/$SUDO_USER/.local/share/fonts"
 PDIR="/home/$SUDO_USER/.config/polybar"
 
-# Install Fonts
-installFonts() {
+function installFonts()
+{
   if [[ -d "$FDIR" ]]; then
     cp -rf $DIR/data/fonts/* "$FDIR"
   else
