@@ -32,10 +32,10 @@ function installAURPackage()
   fi
 
   sudo -u "$SUDO_USER" git clone $1 testbuild
-  sudo -u "$SUDO_USER" cd testbuild
+  cd testbuild
   sudo -u "$SUDO_USER" makepkg -si --noconfirm
-  sudo -u "$SUDO_USER" cd ../
-  sudo -u "$SUDO_USER" rm -rf testbuild
+  cd ../
+  rm -rf testbuild
 }
 
 function launchService()
@@ -64,21 +64,21 @@ function hideGrubLoader()
 
 function copyPolybarConfig()
 {
-  mkdir /home/$SUDO_USER/.configs/polybar
+  mkdir -p /home/$SUDO_USER/.configs/polybar
   cp -rf /home/$SUDO_USER/archlinux-installer/data/grayblocks /home/$SUDO_USER/.configs/polybar
 }
 
 function copyI3Configs()
 {
-  mkdir /home/$SUDO_USER/Configs
+  mkdir -p /home/$SUDO_USER/Configs
   cp -rf /home/$SUDO_USER/archlinux-installer/data/Configs /home/$SUDO_USER/
   cp /home/$SUDO_USER/archlinux-installer/data/i3-config /home/$SUDO_USER/.configs/i3/config
 }
 
 function setWallpaper()
 {
-  mkdir /home/$SUDO_USER/Pictures
-  mkdir /home/$SUDO_USER/Pictures/Wallpapers
+  mkdir -p /home/$SUDO_USER/Pictures
+  mkdir -p /home/$SUDO_USER/Pictures/Wallpapers
   cp /home/$SUDO_USER/archlinux-installer/data/wallpaper.jpg /home/$SUDO_USER/Pictures/Wallpapers/wallpaper.jpg
   nitrogen --set-zoom-fill /home/$SUDO_USER/Pictures/Wallpapers/wallpaper.jpg
 }
