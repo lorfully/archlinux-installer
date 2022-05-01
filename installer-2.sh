@@ -21,10 +21,26 @@ function installAURPackage()
   rm -rf testbuild
 }
 
+DIR=`pwd`
+FDIR="/home/$SUDO_USER/.local/share/fonts"
+PDIR="/home/$SUDO_USER/.config/polybar"
+
+# Install Fonts
+installFonts() {
+  if [[ -d "$FDIR" ]]; then
+    cp -rf $DIR/fonts/* "$FDIR"
+  else
+    mkdir -p "$FDIR"
+    cp -rf $DIR/fonts/* "$FDIR"
+  fi
+}
+
 function copyPolybarConfig()
 {
+  installFonts
+
   mkdir -p /home/$SUDO_USER/.config/polybar
-  cp -rf /home/$SUDO_USER/archlinux-installer/data/grayblocks /home/$SUDO_USER/.config/polybar
+  cp -rf /home/$SUDO_USER/archlinux-installer/data/grayblocks /home/$SUDO_USER/.config/polybar/grayblocks
 }
 
 function copyI3Configs()
@@ -39,7 +55,7 @@ function setWallpaper()
   mkdir -p /home/$SUDO_USER/Pictures
   mkdir -p /home/$SUDO_USER/Pictures/Wallpapers
   cp -rf /home/$SUDO_USER/archlinux-installer/data/wallpaper.jpg /home/$SUDO_USER/Pictures/Wallpapers/wallpaper.jpg
-  nitrogen --set-zoom-fill /home/$SUDO_USER/Pictures/Wallpapers/wallpaper.jpg
+  nitrogen --save --set-zoom-fill /home/$SUDO_USER/Pictures/Wallpapers/wallpaper.jpg
 }
 
 # install AUR packages
