@@ -33,7 +33,7 @@ function installAURPackage()
 
   sudo git clone $1 build
   cd build
-  sudo makepkg -si --noconfirm
+  makepkg -si --noconfirm
   cd ../
   sudo rm -rf build
 }
@@ -64,7 +64,7 @@ function hideGrubLoader()
 
 function copyPolybarConfig()
 {
-  sudo mkdir ~/.configs/polybar
+  sudo mkdir $HOME/.configs/polybar
   sudo cp -rf ./data/grayblocks ~/.configs/polybar
 }
 
@@ -72,7 +72,7 @@ function copyI3Configs()
 {
   sudo mkdir ~/Configs
   sudo cp -rf ./data/Configs ~/
-  sudo cp .data/i3-config ~/.configs/i3/config
+  sudo cp ./data/i3-config ~/.configs/i3/config
 }
 
 function setWallpaper()
@@ -108,7 +108,7 @@ installPackages ttf-hanazono ttf-sazanami ttf-font-awesome ttf-fira-code ttf-ano
 installPackages telegram-desktop nautilus
 
 # setup display and window manager
-sudo echo i3 >> ~/.xinitrc
+sudo echo i3 > ~/.xinitrc
 launchService lightdm
 
 # install AUR packages
