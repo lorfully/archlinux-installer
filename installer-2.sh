@@ -28,10 +28,10 @@ PDIR="/home/$SUDO_USER/.config/polybar"
 # Install Fonts
 installFonts() {
   if [[ -d "$FDIR" ]]; then
-    cp -rf $DIR/fonts/* "$FDIR"
+    cp -rf $DIR/data/fonts/* "$FDIR"
   else
     mkdir -p "$FDIR"
-    cp -rf $DIR/fonts/* "$FDIR"
+    cp -rf $DIR/data/fonts/* "$FDIR"
   fi
 }
 
