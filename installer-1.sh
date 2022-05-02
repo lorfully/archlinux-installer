@@ -9,8 +9,11 @@ fi
 
 function update()
 {
-  pacman -Syy --noconfirm
-  pacman -Syu --noconfirm
+  echo "Syncing"
+  pacman -Syy --noconfirm > /dev/null
+
+  echo "Updating"
+  pacman -Syu --noconfirm > /dev/null
 }
 
 function deletePackages()
@@ -20,7 +23,8 @@ function deletePackages()
     return
   fi
 
-  pacman -Rncsv $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm
+  echo "Deleting $1 $2 $3 $4 $5 $6 $7 $8 $9"
+  pacman -Rncsv $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm > /dev/null
 }
 
 function installPackages()
@@ -30,7 +34,8 @@ function installPackages()
     return
   fi
 
-  pacman -S $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm --needed
+  echo "Installing $1 $2 $3 $4 $5 $6 $7 $8 $9"
+  pacman -S $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm --needed > /dev/null
 }
 
 function launchService()
@@ -40,12 +45,15 @@ function launchService()
     return
   fi
 
-  systemctl enable $1
-  systemctl start $1
+  echo "Launching service $1"
+  systemctl enable $1 > /dev/null
+  systemctl start $1 > /dev/null
 }
 
 function hideGrubLoader()
 {
+  echo "Modifying GRUB config"
+
   cp -rf /etc/default/grub /home/$SUDO_USER/temp1
   
   echo "GRUB_DEFAULT=0" >> /home/$SUDO_USER/temp1
@@ -54,7 +62,14 @@ function hideGrubLoader()
 
   mv /home/$SUDO_USER/temp1 /etc/default/grub
 
-  grub-mkconfig -o /boot/grub/grub.cfg
+  echo "Updating GRUB config"
+  grub-mkconfig -o /boot/grub/grub.cfg > /dev/null
+}
+
+function launchLightDM()
+{
+  echo i3 > /home/$SUDO_USER/.xinitrc
+  launchService lightdm > /dev/null
 }
 
 # change grub startup time
@@ -72,6 +87,5 @@ installPackages i3-gaps i3status i3blocks i3lock gtk4 galculator
 installPackages ttf-hanazono ttf-sazanami ttf-font-awesome ttf-fira-code ttf-anonymous-pro
 installPackages telegram-desktop nautilus
 
-# setup display and window manager
-echo i3 > /home/$SUDO_USER/.xinitrc
-launchService lightdm
+# launch display manager
+launchLightDM

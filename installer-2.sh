@@ -14,10 +14,17 @@ function installAURPackage()
     return
   fi
 
-  sudo -u "$SUDO_USER" git clone $1 testbuild
+  echo "Clonning git repo $1"
+  sudo -u "$SUDO_USER" git clone $1 testbuild > /dev/null
+  
   cd testbuild
-  sudo -u "$SUDO_USER" makepkg -si --noconfirm
+
+  echo "Building package"
+  sudo -u "$SUDO_USER" makepkg -si --noconfirm > /dev/null
+
   cd ../
+
+  echo "Cleaning"
   rm -rf testbuild
 }
 
@@ -27,6 +34,7 @@ PDIR="/home/$SUDO_USER/.config/polybar"
 
 function installFonts()
 {
+  echo "Installing fonts"
   if [[ -d "$FDIR" ]]; then
     cp -rf $DIR/data/fonts/* "$FDIR"
   else
@@ -39,22 +47,29 @@ function copyPolybarConfig()
 {
   installFonts
 
+  echo "Copying polybar configs"
   mkdir -p /home/$SUDO_USER/.config/polybar
   cp -rf /home/$SUDO_USER/archlinux-installer/data/grayblocks /home/$SUDO_USER/.config/polybar/grayblocks
 }
 
 function copyI3Configs()
 {
+  echo "Copying custom i3 configs"
   mkdir -p /home/$SUDO_USER/Configs
   cp -rf /home/$SUDO_USER/archlinux-installer/data/Configs /home/$SUDO_USER/
+
+  echo "Copying i3 main config"
   cp -rf /home/$SUDO_USER/archlinux-installer/data/i3-config /home/$SUDO_USER/.config/i3/config
 }
 
 function setWallpaper()
 {
+  echo "Copying wallpaper image"
   mkdir -p /home/$SUDO_USER/Pictures
   mkdir -p /home/$SUDO_USER/Pictures/Wallpapers
   cp -rf /home/$SUDO_USER/archlinux-installer/data/wallpaper.jpg /home/$SUDO_USER/Pictures/Wallpapers/wallpaper.jpg
+  
+  echo "Applying wallpaper image"
   nitrogen --save --set-zoom-fill /home/$SUDO_USER/Pictures/Wallpapers/wallpaper.jpg
 }
 
@@ -72,4 +87,5 @@ copyI3Configs
 setWallpaper
 
 # reboot to activate all onstart commands and services
+echo "Rebooting"
 reboot
