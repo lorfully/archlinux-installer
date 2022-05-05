@@ -10,10 +10,10 @@ fi
 function update()
 {
   echo "Syncing"
-  pacman -Syy --noconfirm > /dev/null
+  pacman -Syy --noconfirm &> /dev/null
 
   echo "Updating"
-  pacman -Syu --noconfirm > /dev/null
+  pacman -Syu --noconfirm &> /dev/null
 }
 
 function deletePackages()
@@ -24,7 +24,7 @@ function deletePackages()
   fi
 
   echo "Deleting $1 $2 $3 $4 $5 $6 $7 $8 $9"
-  pacman -Rncsv $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm > /dev/null
+  pacman -Rncsv $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm &> /dev/null
 }
 
 function installPackages()
@@ -35,7 +35,7 @@ function installPackages()
   fi
 
   echo "Installing $1 $2 $3 $4 $5 $6 $7 $8 $9"
-  pacman -S $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm --needed > /dev/null
+  pacman -S $1 $2 $3 $4 $5 $6 $7 $8 $9 --noconfirm --needed &> /dev/null
 }
 
 function launchService()
@@ -46,8 +46,8 @@ function launchService()
   fi
 
   echo "Launching service $1"
-  systemctl enable $1 > /dev/null
-  systemctl start $1 > /dev/null
+  systemctl enable $1 &> /dev/null
+  systemctl start $1 &> /dev/null
 }
 
 function hideGrubLoader()
@@ -63,13 +63,13 @@ function hideGrubLoader()
   mv /home/$SUDO_USER/temp1 /etc/default/grub
 
   echo "Updating GRUB config"
-  grub-mkconfig -o /boot/grub/grub.cfg > /dev/null
+  grub-mkconfig -o /boot/grub/grub.cfg &> /dev/null
 }
 
 function launchLightDM()
 {
   echo i3 > /home/$SUDO_USER/.xinitrc
-  launchService lightdm > /dev/null
+  launchService lightdm &> /dev/null
 }
 
 # change grub startup time

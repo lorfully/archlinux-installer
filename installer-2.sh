@@ -15,12 +15,12 @@ function installAURPackage()
   fi
 
   echo "Clonning git repo $1"
-  sudo -u "$SUDO_USER" git clone $1 testbuild > /dev/null
+  sudo -u "$SUDO_USER" git clone $1 testbuild &> /dev/null
   
   cd testbuild
 
   echo "Building package"
-  sudo -u "$SUDO_USER" makepkg -si --noconfirm > /dev/null
+  sudo -u "$SUDO_USER" makepkg -si --noconfirm &> /dev/null
 
   cd ../
 
