@@ -85,7 +85,6 @@ installPackages kitty rofi neofetch nitrogen feh
 installPackages neovim lightdm lightdm-gtk-greeter
 installPackages i3-gaps i3status i3blocks i3lock gtk4 galculator
 installPackages ttf-hanazono ttf-sazanami ttf-font-awesome ttf-fira-code ttf-anonymous-pro
-installPackages telegram-desktop nautilus
 
 # launch display manager
 launchLightDM
