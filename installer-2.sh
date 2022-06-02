@@ -74,8 +74,6 @@ function setWallpaper()
 }
 
 # install AUR packages
-installAURPackage https://aur.archlinux.org/waterfox-g4-bin.git
-installAURPackage https://aur.archlinux.org/visual-studio-code-bin.git
 installAURPackage https://aur.archlinux.org/ttf-ms-fonts.git
 installAURPackage https://aur.archlinux.org/ttf-iosevka.git
 installAURPackage https://aur.archlinux.org/ttf-icomoon-feather.git
